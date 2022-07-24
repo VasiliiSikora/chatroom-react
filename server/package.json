@@ -1,0 +1,28 @@
+{
+  "name": "chatroom-react",
+  "version": "1.0.0",
+  "description": "React App Using Socket.io and typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "heroku-postbuild": "cd client && yarn && yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VasiliiSikora/chatroom-react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VasiliiSikora/chatroom-react/issues"
+  },
+  "homepage": "https://github.com/VasiliiSikora/chatroom-react#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "socket.io": "^4.5.1"
+  }
+}
