@@ -4,7 +4,7 @@ require('dotenv').config
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Logging Middleware NEEDS TO BE BEFORE THE ROUTES (i.e. here)
+// Logging Middleware NEEDS TO BE BEFORE THE ROUTES (i.e. here).
 app.use((req, res, next) => {
     console.log(`${new Date()} ${req.method} ${req.path}`);
     next()
