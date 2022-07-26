@@ -5,6 +5,9 @@ import { Link, useNavigate, NavigateFunction, Navigate } from 'react-router-dom'
 import { ToastContainer, toast, ToastOptions} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 // //https://reactrouter.com/docs/en/v6/hooks/use-navigate
 // let navigate = useNavigate()
@@ -37,6 +40,14 @@ export class Register extends Component<{}, RegisterState> {
             password: '',
             confirmPassword: '',
             shouldRedirect: false
+        }
+    }
+
+    // Use componentDidMount & componentWillUnmount in place of useEffect since class components can't use hooks
+    componentDidMount() {
+        const token = cookies.get("TOKEN")
+        if(token) {
+            this.setState({...this.state, shouldRedirect: true})
         }
     }
 

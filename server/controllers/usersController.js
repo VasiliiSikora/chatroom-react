@@ -1,6 +1,6 @@
 const User = require('../model/userModel')
 const bcrypt = require('bcrypt')
-// const express = require('express')
+const jwt = require("jsonwebtoken");
 
 // const router = express.Router();
 
@@ -44,7 +44,18 @@ module.exports.login = async (req,res, next) => {
         if (!isPwordValid) {
             return res.json({msg:'Incorrect username or password', status: false});
         }
-        return res.json({status: true, userCheck});
+
+        // Handle session cookies
+        const token = jwt.sign(
+            {
+                userId: userCheck.username,
+                userEmail: userCheck.email
+            },
+            "RANDOM-TOKEN",
+            { expiresIn: "24h" }
+        )
+
+        return res.json({status: true, token}); //(token was userCheck
     } catch (err) {
         // https://expressjs.com/en/guide/error-handling.html
         res.status(500).json({message: err})

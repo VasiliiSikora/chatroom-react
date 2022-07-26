@@ -5,6 +5,9 @@ import { Link, useNavigate, NavigateFunction, Navigate } from 'react-router-dom'
 import { ToastContainer, toast, ToastOptions} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 // //https://reactrouter.com/docs/en/v6/hooks/use-navigate
 // let navigate = useNavigate()
@@ -13,7 +16,8 @@ import axios from 'axios'
 interface RegisterState {
     username: String,
     password: String,
-    shouldRedirect: boolean
+    shouldRedirect: boolean,
+    isLogin: boolean
 }
 
 const toastOptions: ToastOptions = {
@@ -32,8 +36,21 @@ export class Login extends Component<{}, RegisterState> {
         this.state = {
             username: '',
             password: '',
-            shouldRedirect: false
+            shouldRedirect: false,
+            isLogin: false,
         }
+    }
+
+    // Use componentDidMount & componentWillUnmount in place of useEffect since class components can't use hooks
+    componentDidMount() {
+        const token = cookies.get("TOKEN")
+        if(token) {
+            this.setState({...this.state, shouldRedirect: true, isLogin: true})
+        }
+    }
+
+    componentWillUnmount() {
+
     }
 
     handlePasswordConfirm = () => {
@@ -68,7 +85,10 @@ export class Login extends Component<{}, RegisterState> {
                 localStorage.setItem('chat-app-user', JSON.stringify(data.user))
                 // https://reactrouter.com/docs/en/v6/hooks/use-navigate
                 const state = {...this.state}
-                this.setState({...state, shouldRedirect: true})
+                cookies.set("TOKEN", data.token, {
+                    path: "/",
+                });
+                this.setState({...state, shouldRedirect: true, isLogin: true})
             }
         }
     }

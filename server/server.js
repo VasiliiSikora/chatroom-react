@@ -3,10 +3,22 @@ require('dotenv').config
 const mongoose = require("mongoose")
 const userRoutes = require('./routes/userRoutes')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const sessions = require('express-session')
+const auth = require("./auth");
 
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 3001;
+
+// store session on server similar to cookies: https://www.section.io/engineering-education/session-management-in-nodejs-using-expressjs-and-express-session/
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false 
+}));
 
 //https://expressjs.com/en/resources/middleware/cors.html
 //https://www.npmjs.com/package/cors
@@ -18,9 +30,13 @@ app.get('/products/:id', function (req, res, next) {
 })
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); //  https://www.section.io/engineering-education/session-management-in-nodejs-using-expressjs-and-express-session/
 app.use(express.static('./client/build'))
 
-// Keep routes neat without repeat code
+// cookie parser middleware
+app.use(cookieParser());
+
+// Keep routes neat without repeat code: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
 app.use('/api/auth',userRoutes)
 
 app.get("api/test", (req,res) => {
@@ -36,6 +52,18 @@ mongoose.connect(process.env.MONGO_URL, {
 }).catch((err) => {
     console.log(err.message)
 })
+
+
+
+// free endpoint
+app.get("/free-endpoint", (request, response) => {
+    response.json({ message: "You are free to access me anytime" });
+});
+  
+  // authentication endpoint
+app.get("/auth-endpoint", auth, (request, response) => {
+    response.json({ message: "You are authorized to access me" });
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
