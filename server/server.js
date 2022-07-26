@@ -1,19 +1,32 @@
 const express = require("express");
 require('dotenv').config
 const mongoose = require("mongoose")
+const userRoutes = require('./routes/userRoutes')
+const cors = require('cors')
 
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 3001;
 
-// Logging Middleware NEEDS TO BE BEFORE THE ROUTES (i.e. here).
-app.use((req, res, next) => {
-    console.log(`${new Date()} ${req.method} ${req.path}`);
-    next()
+// // Logging Middleware NEEDS TO BE BEFORE THE ROUTES (i.e. here).
+// app.use((req, res, next) => {
+//     console.log(`${new Date()} ${req.method} ${req.path}`);
+//     next()
+// })
+
+//https://expressjs.com/en/resources/middleware/cors.html
+//https://www.npmjs.com/package/cors
+app.options('*', cors())
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+    res.json({msg: 'This is CORS-enabled for all origins!'})
 })
 
 app.use(express.json());
 app.use(express.static('./client/build'))
+
+app.use('/api/auth',userRoutes)
 
 app.get("api/test", (req,res) => {
     res.json({ result: "success" })
