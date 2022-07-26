@@ -40,8 +40,6 @@ export class Register extends Component<{}, RegisterState> {
         }
     }
 
-    navigate = this.props;
-
     handlePasswordConfirm = () => {
         const {username, email, password, confirmPassword} = this.state;
         if (password !== confirmPassword) {

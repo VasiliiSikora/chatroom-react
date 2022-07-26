@@ -8,12 +8,6 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 3001;
 
-// // Logging Middleware NEEDS TO BE BEFORE THE ROUTES (i.e. here).
-// app.use((req, res, next) => {
-//     console.log(`${new Date()} ${req.method} ${req.path}`);
-//     next()
-// })
-
 //https://expressjs.com/en/resources/middleware/cors.html
 //https://www.npmjs.com/package/cors
 app.options('*', cors())
@@ -26,6 +20,7 @@ app.get('/products/:id', function (req, res, next) {
 app.use(express.json());
 app.use(express.static('./client/build'))
 
+// Keep routes neat without repeat code
 app.use('/api/auth',userRoutes)
 
 app.get("api/test", (req,res) => {

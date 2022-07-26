@@ -11,7 +11,6 @@ module.exports.register = async (req,res, next) => {
         const {username, email, password} = req.body;
 
         const usernameCheck = await User.findOne({ username });
-        console.log(usernameCheck)
         if (usernameCheck) {
             return res.json({msg:'username taken', status: false});
         }
@@ -26,16 +25,28 @@ module.exports.register = async (req,res, next) => {
             username,
             password: hashedPassword,
         });
-        delete user.password;
         return res.json({status: true, user});
     } catch (err) {
         // https://expressjs.com/en/guide/error-handling.html
         res.status(500).json({message: err})
-        // next(err); // change?
     }
 }
 
-// //https://stackoverflow.com/questions/52833169/path-to-regexp-throws-typeerror-cannot-read-property-length-of-undefined
-// router.post('/register', register)
-
-// module.exports = router
+module.exports.login = async (req,res, next) => {
+    try {
+        const {username, password} = req.body;
+        // Search mongoDB for user account
+        const userCheck = await User.findOne({ username });
+        if (!userCheck) {
+            return res.json({msg:'Incorrect username or password', status: false});
+        }
+        const isPwordValid = await bcrypt.compare(password, userCheck.password);
+        if (!isPwordValid) {
+            return res.json({msg:'Incorrect username or password', status: false});
+        }
+        return res.json({status: true, userCheck});
+    } catch (err) {
+        // https://expressjs.com/en/guide/error-handling.html
+        res.status(500).json({message: err})
+    }
+}
