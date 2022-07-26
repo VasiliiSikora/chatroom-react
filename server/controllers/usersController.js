@@ -45,7 +45,7 @@ module.exports.login = async (req,res, next) => {
             return res.json({msg:'Incorrect username or password', status: false});
         }
 
-        // Handle session cookies
+        // Handle session cookies: https://www.freecodecamp.org/news/how-to-build-a-fullstack-authentication-system-with-react-express-mongodb-heroku-and-netlify/
         const token = jwt.sign(
             {
                 userId: userCheck.username,
@@ -61,3 +61,6 @@ module.exports.login = async (req,res, next) => {
         res.status(500).json({message: err})
     }
 }
+
+
+
