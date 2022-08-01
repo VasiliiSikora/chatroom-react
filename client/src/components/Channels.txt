@@ -1,1 +1,0 @@
-const allUsersRoute = 'http://localhost:3001/api/auth/allchannels'

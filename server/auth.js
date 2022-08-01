@@ -13,9 +13,10 @@ module.exports = async (request, response, next) => {
 
         // retrieve the user details of the logged in user
         const user = await decodedToken;
-        // pass the the user down to the endpoints here
 
+        // pass the the user down to the endpoints here
         request.user = user;
+        
         // pass down functionality to the endpoint
         next();
     } catch (error) {

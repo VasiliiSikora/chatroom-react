@@ -6,6 +6,8 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session')
 const auth = require("./auth");
+const http = require('http')
+const { Server } = require('socket.io')
 
 const app = express();
 require("dotenv").config();
@@ -53,6 +55,33 @@ mongoose.connect(process.env.MONGO_URL, {
     console.log(err.message)
 })
 
+// Socket.io
+const server = http.createServer(app)
+
+// Connect socket.io server to express server
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000", // Tells server which url is making calls to socket.io server (React App location)
+        methods: ["GET", "POST"] // what requests are allowed
+    }
+})
+
+// check for user connecting to socket server. on("<event name>") listens for event with event name
+io.on("connection", (socket) => {
+    console.log(`User Connected: ${socket.id}`); // log the connected user's id
+
+    // join room functionality
+    socket.on("join_room", (data) => { // where data is the room id 
+        socket.join(data)
+        console.log(`User with ID: ${socket.id} joined room: ${data}`)
+    })
+
+
+    // disconnect functionality
+    socket.on("disconnect", () => {
+        console.log("User disconnected", socket.id)
+    })
+})
 
 
 // free endpoint
@@ -60,11 +89,12 @@ app.get("/free-endpoint", (request, response) => {
     response.json({ message: "You are free to access me anytime" });
 });
   
-  // authentication endpoint
+// authentication endpoint
 app.get("/auth-endpoint", auth, (request, response) => {
     response.json({ message: "You are authorized to access me" });
 });
 
-app.listen(port, () => {
+// https://stackoverflow.com/questions/41534370/socket-io-wont-work-connect-in-reactjs-app
+server.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
 })
