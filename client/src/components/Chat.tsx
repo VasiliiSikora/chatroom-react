@@ -17,6 +17,8 @@ interface messageData {
     time: string
 }
 
+
+
 export function Chat(props: props) {
     const [currentMessage, setCurrentMessage] = useState("")
     // https://stackoverflow.com/questions/64798809/how-to-setstate-with-an-array-and-object-in-typescript
@@ -35,6 +37,7 @@ const sendMessage = async () => {
 
         await props.socket.emit("send_message", messageData)
         setMessageHistory((history) => [...history, messageData])
+        setCurrentMessage('')
     }
 }
 
@@ -46,6 +49,22 @@ useEffect(() => {
     })
 }, [props.socket])
 
+// auto scroll: https://stackoverflow.com/questions/42261524/how-to-window-scrollto-with-a-smooth-effect && https://codesandbox.io/s/8l2y0o24x9?file=/src/index.js:652-846
+const ref = React.createRef<HTMLDivElement>();
+
+const scrollToMyRef = () => {
+    if (ref && ref.current) {
+        const scroll =
+            ref.current.scrollHeight -
+            ref.current.clientHeight;
+            ref.current.scrollTo({top: scroll, behavior: 'smooth'});
+    }
+};
+
+React.useEffect(() => {
+    scrollToMyRef()
+}, [messageHistory]);
+
     return (
         <div>
             <Container>
@@ -53,7 +72,7 @@ useEffect(() => {
                     <div className='chatHeader'>
                         <p>Chatroom: {props.room}</p>
                     </div>
-                    <div className='chatBody'>
+                    <div className='chatBody' ref={ref}>
                         {messageHistory.map((messageContent) => {
                             return (
                                 <div className='message' id={props.username === messageContent.author ? "you" : "other"}>
@@ -62,9 +81,9 @@ useEffect(() => {
                                             <p>{messageContent.message}</p>
                                         </div>
                                         <div className='timeAndUser'>
-                                            <p>{messageContent.time} {messageContent.author}</p>
+                                            <p>{messageContent.time}</p>
+                                            <p className='author'>{messageContent.author}</p>
                                         </div>
-
                                     </div>
                                 </div>
                             )
@@ -74,6 +93,7 @@ useEffect(() => {
                         <input id="inputID" 
                             type="text" 
                             placeholder='Message...'
+                            value={currentMessage}
                             onChange={(event) => {
                                 setCurrentMessage(event.target.value)
                             }}
@@ -81,8 +101,8 @@ useEffect(() => {
                             onKeyPress={(event) => {
                                 if (event.key === "Enter") {
                                     sendMessage();
-                                    event.target.value=""
-                                    setCurrentMessage("")
+                                    // event.target.value=""
+                                    // setCurrentMessage("")
                                 }
                             }}
                         />
@@ -131,19 +151,33 @@ const Container = styled.div`
             border: 1px solid #263238;
             background: #fff;
             position: relative;
-            .message-container {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            .messageContainer {
                 width: 100%;
                 height: 100%;
+                // https://www.w3schools.com/cssref/css3_pr_overflow-y.asp
+                overflow-y: scroll;
+                overflow-x: hidden;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
             .message {
                 height: auto;
                 padding: 10px;
                 display: flex;
+                div {
+                    max-width: 80%;
+                }
                 .messageContent {
                     width: auto;
                     height: auto;
                     min-height: 40px;
-                    max-width: 120px;
+                    max-width: 100%;
                     border-radius: 5px;
                     color: #000000;
                     display: flex;
@@ -158,7 +192,12 @@ const Container = styled.div`
                 }
                 .timeAndUser {
                     display: flex;
-                    font-size: 12px;
+                    gap: 5px;
+                    max-width: 100%;
+                    font-size: 14px;
+                    .author {
+                        font-weight: bold;
+                    }
                 }
             }
         }
@@ -198,7 +237,7 @@ const Container = styled.div`
         // CSS ideas from here: https://www.cometchat.com/tutorials/how-to-build-a-chat-app-with-socket-io-node-js BUT instead of text-align flex works better
         justify-content: flex-end;
         .messageContent {
-            justify-content: flex-end;
+            justify-content: center;
             background-color: #c3e099;
         }
         .timeAndUser {
@@ -209,7 +248,7 @@ const Container = styled.div`
     #other {
         justify-content: flex-start;
         .messageContent {
-            justify-content: flex-start;
+            justify-content: center;
             background-color: #a9cbe1;
         }
         .timeAndUser {
