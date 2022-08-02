@@ -29,7 +29,8 @@ const sendMessage = async () => {
             room: props.room,
             author: props.username,
             message: currentMessage,
-            time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes()
+            // https://stackoverflow.com/questions/8513032/less-than-10-add-0-to-number && https://bobbyhadz.com/blog/javascript-get-hours-and-minutes-from-date#:~:text=To%20get%20the%20hours%20and,minutes%20in%20the%20specified%20date.
+            time: new Date(Date.now()).getHours() + ':' + ('0' + new Date(Date.now()).getMinutes()).slice(-2)
         }
 
         await props.socket.emit("send_message", messageData)
@@ -54,15 +55,35 @@ useEffect(() => {
                     </div>
                     <div className='chatBody'>
                         {messageHistory.map((messageContent) => {
-                            return <h1>{messageContent.message}</h1>
+                            return (
+                                <div className='message' id={props.username === messageContent.author ? "you" : "other"}>
+                                    <div>
+                                        <div className='messageContent'>
+                                            <p>{messageContent.message}</p>
+                                        </div>
+                                        <div className='timeAndUser'>
+                                            <p>{messageContent.time} {messageContent.author}</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            )
                         })}
                     </div>
                     <div className='chatInput'>
-                        <input 
+                        <input id="inputID" 
                             type="text" 
                             placeholder='Message...'
                             onChange={(event) => {
                                 setCurrentMessage(event.target.value)
+                            }}
+                            // https://stackoverflow.com/questions/13987300/how-to-capture-enter-key-press
+                            onKeyPress={(event) => {
+                                if (event.key === "Enter") {
+                                    sendMessage();
+                                    event.target.value=""
+                                    setCurrentMessage("")
+                                }
                             }}
                         />
                         <button onClick={sendMessage}>Send</button>
@@ -123,9 +144,8 @@ const Container = styled.div`
                     height: auto;
                     min-height: 40px;
                     max-width: 120px;
-                    background-color: #43a047;
                     border-radius: 5px;
-                    color: white;
+                    color: #000000;
                     display: flex;
                     align-items: center;
                     margin-right: 5px;
@@ -135,6 +155,10 @@ const Container = styled.div`
                     // https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-wrap
                     overflow-wrap: break-word;
                     word-break: break-word;
+                }
+                .timeAndUser {
+                    display: flex;
+                    font-size: 12px;
                 }
             }
         }
@@ -169,5 +193,28 @@ const Container = styled.div`
                     }
                 }
             }
+    }
+    #you {
+        // CSS ideas from here: https://www.cometchat.com/tutorials/how-to-build-a-chat-app-with-socket-io-node-js BUT instead of text-align flex works better
+        justify-content: flex-end;
+        .messageContent {
+            justify-content: flex-end;
+            background-color: #c3e099;
+        }
+        .timeAndUser {
+            justify-content: flex-end;
+            margin-right: 5px;
+        }
+    }
+    #other {
+        justify-content: flex-start;
+        .messageContent {
+            justify-content: flex-start;
+            background-color: #a9cbe1;
+        }
+        .timeAndUser {
+            justify-content: flex-start;
+            margin-left: 5px;
+        }
     }
 `;
