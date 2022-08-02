@@ -35,6 +35,7 @@ export function FrontPage() {
     const [room, setRoom] = useState("");
     const [currentUser, setCurrentUser] = React.useState<user | undefined>(undefined)
     const [isLogin, setLogin] = useState(false)
+    const [showChat, setShowChat] = useState(false)
 
     const navigate = useNavigate()
 
@@ -57,28 +58,37 @@ export function FrontPage() {
     const joinRoom = () => {
         if (username !== "" && room !== "") {
             socket.emit("join_room", room)
+            setShowChat(true); // show chat after joining the room
         }
     }
 
     return (
         
         <Container>
-            <div className="joinChatContainer">
-                <h3>Join a Chatroom</h3>
-                <input 
-                    type='text' 
-                    placeholder='John...' 
-                    onChange={(event) => {setUsername(event.target.value)}}/>
-                <input 
-                    type='text' 
-                    placeholder='Room ID...'
-                    onChange={(event) => {setRoom(event.target.value)}}/>
-                <button onClick={joinRoom}>Join</button>
-            </div>
-            <Chat 
-                socket={socket} 
-                username={username} 
-                room={room} />
+            {!showChat ? (
+                <div className='container'>
+                    <div className="joinChatContainer">
+                        <h3>Join a Chatroom</h3>
+                        <input 
+                            type='text' 
+                            placeholder='John...' 
+                            onChange={(event) => {setUsername(event.target.value)}}/>
+                        <input 
+                            type='text' 
+                            placeholder='Room ID...'
+                            onChange={(event) => {setRoom(event.target.value)}}/>
+                        <button onClick={joinRoom}>Join</button>
+                    </div>
+                </div>
+                )
+            :
+                (
+                <Chat 
+                    socket={socket} 
+                    username={username} 
+                    room={room} />
+                )
+            }
         </Container>
     )
 }
@@ -86,10 +96,18 @@ export function FrontPage() {
 const Container = styled.div`
     margin: 0%;
     padding: 0%;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    color: #212121;
+    display: grid;
+    justify-content: center;
+    align-items: center;
     .joinChatContainer {
         display: flex;
         flex-direction: column;
         text-align: center;
+        align-items: center;
         h3 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
