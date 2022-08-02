@@ -32,6 +32,7 @@ Technologies and Libraries:
 - Socket.io
 - JSON Web Token (JWT)
 - universal-cookie
+- styled-components
 - cors
 - bcrypt
 - axios

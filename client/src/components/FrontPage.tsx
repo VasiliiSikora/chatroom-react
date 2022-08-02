@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Cookies from "universal-cookie";
 import { Channels, channel } from './Channels'
 import { Chat } from './Chat'
+import { SocketIOClient } from '../utils/SocketIOClient'
 
 //https://github.com/auth0/jwt-decode
 import jwt_decode from 'jwt-decode'
@@ -22,33 +23,6 @@ interface jwtObject {
     iat: number,
     userEmail: string,
     userId:string
-}
-
-// https://stackoverflow.com/questions/14084406/typescript-and-socket-io
-
-declare module SocketIOClient {
-    interface Socket {
-        on(event: string, fn: Function): Socket;
-        once(event: string, fn: Function): Socket;
-        off(event?: string, fn?: Function): Socket;
-        emit(event: string, ...args: any[]): Socket;
-        listeners(event: string): Function[];
-        hasListeners(event: string): boolean;
-        connected: boolean;
-    }
-
-    interface ManagerStatic {
-        (url: string, opts: any): SocketIOClient.Manager;
-        new (url: string, opts: any): SocketIOClient.Manager;
-    }
-
-    interface Manager {
-        reconnection(v: boolean): Manager;
-        reconnectionAttempts(v: boolean): Manager;
-        reconnectionDelay(v: boolean): Manager;
-        reconnectionDelayMax(v: boolean): Manager;
-        timeout(v: boolean): Manager;
-    }
 }
 
 // connect front end to backend
@@ -89,16 +63,18 @@ export function FrontPage() {
     return (
         
         <Container>
-            <h3>Join a Chatroom</h3>
-            <input 
-                type='text' 
-                placeholder='John...' 
-                onChange={(event) => {setUsername(event.target.value)}}/>
-            <input 
-                type='text' 
-                placeholder='Room ID...'
-                onChange={(event) => {setRoom(event.target.value)}}/>
-            <button onClick={joinRoom}>Join</button>
+            <div className="joinChatContainer">
+                <h3>Join a Chatroom</h3>
+                <input 
+                    type='text' 
+                    placeholder='John...' 
+                    onChange={(event) => {setUsername(event.target.value)}}/>
+                <input 
+                    type='text' 
+                    placeholder='Room ID...'
+                    onChange={(event) => {setRoom(event.target.value)}}/>
+                <button onClick={joinRoom}>Join</button>
+            </div>
             <Chat 
                 socket={socket} 
                 username={username} 
@@ -108,5 +84,39 @@ export function FrontPage() {
 }
 
 const Container = styled.div`
-    
+    margin: 0%;
+    padding: 0%;
+    .joinChatContainer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        input {
+            width: 210px;
+            height: 40px;
+            margin: 7px;
+            border: 2px solid #43a047;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 16px;    
+        }
+        button {
+            width: 225px;
+            height: 50px;
+            margin: 7px;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 16px;
+            background: #43a047;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+                background: #2e7d32;
+            }
+        }
+    }
 `;

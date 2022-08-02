@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/14084406/typescript-and-socket-io
+
 export declare module SocketIOClient {
     interface Socket {
         on(event: string, fn: Function): Socket;
