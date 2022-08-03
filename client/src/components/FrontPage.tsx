@@ -9,6 +9,7 @@ import { SocketIOClient } from '../utils/SocketIOClient'
 //https://github.com/auth0/jwt-decode
 import jwt_decode from 'jwt-decode'
 import { io, Socket } from 'socket.io-client'
+import { tokenToString } from 'typescript';
 
 const cookies = new Cookies();
 const userToken = cookies.get("TOKEN")
@@ -34,26 +35,33 @@ export function FrontPage() {
     const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
     const [currentUser, setCurrentUser] = React.useState<user | undefined>(undefined)
-    const [isLogin, setLogin] = useState(false)
+    const [isLogin, setLogin] = useState(true)
     const [showChat, setShowChat] = useState(false)
 
     const navigate = useNavigate()
 
     useEffect(() => {
         const token = cookies.get("TOKEN")
+        console.log(token)
         if(token) {
+            console.log('token exists')
             const decodedToken: jwtObject = jwt_decode(token)
             console.log(decodedToken)
             setCurrentUser({
                 username: decodedToken.userId,
                 userEmail: decodedToken.userEmail
             })
-            setLogin(true)
+            setUsername(decodedToken.userId)
         } else {
-            setLogin(false)
             navigate('/login')
         }
-    },[])
+    },[isLogin])
+
+    const logout = () => {
+        console.log('logout')
+        cookies.remove("TOKEN")
+        setLogin(false)
+    }
 
     const joinRoom = () => {
         if (username !== "" && room !== "") {
@@ -65,6 +73,7 @@ export function FrontPage() {
     return (
         
         <Container>
+            <button onClick={logout}>Logout</button>
             {!showChat ? (
                 <div className='container'>
                     <div className="joinChatContainer">
@@ -72,6 +81,7 @@ export function FrontPage() {
                         <input 
                             type='text' 
                             placeholder='John...' 
+                            value={username}
                             onChange={(event) => {setUsername(event.target.value)}}/>
                         <input 
                             type='text' 
@@ -86,7 +96,8 @@ export function FrontPage() {
                 <Chat 
                     socket={socket} 
                     username={username} 
-                    room={room} />
+                    room={room}
+                    logout={logout} />
                 )
             }
         </Container>

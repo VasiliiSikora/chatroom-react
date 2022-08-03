@@ -43,10 +43,10 @@ export class Login extends Component<{}, RegisterState> {
 
     // Use componentDidMount & componentWillUnmount in place of useEffect since class components can't use hooks
     componentDidMount() {
-        const token = cookies.get("TOKEN")
-        if(token) {
-            this.setState({...this.state, shouldRedirect: true, isLogin: true})
-        }
+        // const token = cookies.get("TOKEN")
+        // if(token) {
+        //     this.setState({...this.state, shouldRedirect: true, isLogin: true})
+        // }
     }
 
     componentWillUnmount() {

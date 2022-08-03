@@ -8,6 +8,7 @@ interface props {
     socket: SocketIOClient.Socket
     username: string
     room: string
+    logout: () => void
 }
 
 interface messageData {
@@ -61,6 +62,8 @@ const scrollToMyRef = () => {
     }
 };
 
+const setLogout = props.logout
+
 React.useEffect(() => {
     scrollToMyRef()
 }, [messageHistory]);
@@ -71,6 +74,7 @@ React.useEffect(() => {
                 <div className='chatWindow'>
                     <div className='chatHeader'>
                         <p>Chatroom: {props.room}</p>
+                        <button onClick={() => setLogout()}>Logout</button>
                     </div>
                     <div className='chatBody' ref={ref}>
                         {messageHistory.map((messageContent) => {
