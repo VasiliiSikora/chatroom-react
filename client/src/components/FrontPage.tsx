@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Cookies from "universal-cookie";
-import { Channels, channel } from './Channels'
 import { Chat } from './Chat'
+import { ChatRoom } from './ChatRoom'
 import { SocketIOClient } from '../utils/SocketIOClient'
 
 //https://github.com/auth0/jwt-decode
@@ -34,7 +34,6 @@ const socket: SocketIOClient.Socket = io('http://localhost:3001')
 export function FrontPage() {
     const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
-    const [currentUser, setCurrentUser] = React.useState<user | undefined>(undefined)
     const [isLogin, setLogin] = useState(true)
     const [showChat, setShowChat] = useState(false)
 
@@ -47,10 +46,6 @@ export function FrontPage() {
             console.log('token exists')
             const decodedToken: jwtObject = jwt_decode(token)
             console.log(decodedToken)
-            setCurrentUser({
-                username: decodedToken.userId,
-                userEmail: decodedToken.userEmail
-            })
             setUsername(decodedToken.userId)
         } else {
             navigate('/login')
@@ -97,7 +92,7 @@ export function FrontPage() {
                     socket={socket} 
                     username={username} 
                     room={room}
-                    logout={logout} />
+                    logout={logout}/>
                 )
             }
         </Container>
