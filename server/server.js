@@ -33,7 +33,7 @@ app.get('/products/:id', function (req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //  https://www.section.io/engineering-education/session-management-in-nodejs-using-expressjs-and-express-session/
-app.use(express.static('./client/build'))
+app.use(express.static('../client/build'))
 
 // cookie parser middleware
 app.use(cookieParser());
@@ -46,11 +46,12 @@ app.get("api/test", (req,res) => {
 })
 
 // Connect to mongodb (https://www.bezkoder.com/react-node-express-mongodb-mern-stack/)
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log("DB Connection Successful")
+    console.log(process.env.MONGO_URI)
 }).catch((err) => {
     console.log(err.message)
 })

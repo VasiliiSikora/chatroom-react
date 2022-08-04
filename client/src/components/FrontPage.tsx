@@ -68,7 +68,7 @@ export function FrontPage() {
     return (
         
         <Container>
-            <button onClick={logout}>Logout</button>
+            {/* <button onClick={logout}>Logout</button> */}
             {!showChat ? (
                 <div className='container'>
                     <div className="joinChatContainer">
@@ -88,7 +88,7 @@ export function FrontPage() {
                 )
             :
                 (
-                <Chat 
+                <ChatRoom 
                     socket={socket} 
                     username={username} 
                     room={room}
@@ -106,7 +106,7 @@ const Container = styled.div`
     height: 100vh;
     background: #fff;
     color: #212121;
-    display: grid;
+    /* display: grid; */
     justify-content: center;
     align-items: center;
     .joinChatContainer {

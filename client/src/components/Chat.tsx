@@ -121,15 +121,15 @@ React.useEffect(() => {
 const Container = styled.div`
     margin: 0%;
     padding: 0%;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background: #fff;
     color: #212121;
-    display: grid;
+    /* display: grid; */
     justify-content: center;
     align-items: center;
     .chatWindow {
-        width: 80vw;
+        /* width: 80vw; */
         height: 75vh;
         p {
             margin: 0;
