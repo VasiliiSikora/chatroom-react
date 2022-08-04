@@ -28,7 +28,7 @@ interface jwtObject {
 
 // connect front end to backend
 // const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io('http://localhost:3001')
-const socket: SocketIOClient.Socket = io('http://localhost:3001')
+const socket: SocketIOClient.Socket = io()
 
 // Use function components since a lot of useEffects
 export function FrontPage() {

@@ -18,7 +18,7 @@ interface ClientToServerEvents {
   hello: () => void;
 }
 // connect front end to backend
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io('http://localhost:3001')
+// const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io('http://localhost:3001')
 
 export default function App() {
   return (

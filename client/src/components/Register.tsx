@@ -82,7 +82,7 @@ export class Register extends Component<{}, RegisterState> {
         event.preventDefault();
         if (this.handlePasswordConfirm()) {
             const {username, email, password} = this.state;
-            const {data} = await axios.post('http://localhost:3001/api/auth/register', {
+            const {data} = await axios.post('/api/auth/register', {
                 username, 
                 email, 
                 password
