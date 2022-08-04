@@ -33,7 +33,7 @@ app.get('/products/:id', function (req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //  https://www.section.io/engineering-education/session-management-in-nodejs-using-expressjs-and-express-session/
-app.use(express.static('../client/build'))
+app.use(express.static('./client/build'))
 
 // cookie parser middleware
 app.use(cookieParser());
