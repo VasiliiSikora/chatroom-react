@@ -46,12 +46,12 @@ app.get("api/test", (req,res) => {
 })
 
 // Connect to mongodb (https://www.bezkoder.com/react-node-express-mongodb-mern-stack/)
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
     console.log("DB Connection Successful")
-    console.log(process.env.MONGO_URI)
+    console.log(process.env.MONGODB_URI)
 }).catch((err) => {
     console.log(err.message)
 })
