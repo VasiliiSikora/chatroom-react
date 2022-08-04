@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { SocketIOClient } from '../utils/SocketIOClient'
 import { chatRoomTypes } from '../utils/chatrooms'
 import { Chat } from './Chat'
 import styled from 'styled-components'
+import {Chats} from '../utils/chatrooms'
 
 interface props {
   socket: SocketIOClient.Socket
@@ -20,39 +21,17 @@ export function ChatRoom(props: props) {
     const renderList = (list:any) => {
       return list.map((chat:any, index:any) => {
         return (
-          <h1>{chat.roomName}</h1>
+          <button className='chatSelector' onClick={() => joinRoom(chat.roomName)}>{chat.roomName}</button>
         )
       })
     }
-    
-    const Chats: chatRoomTypes.chatRoom[] = [
-      {
-          roomName: 'Global',
-          favourited: false
-      },
-      {
-        roomName: 'Animals',
-        favourited: false
-      },
-      {
-        roomName: 'Gaming',
-        favourited: false
-      },
-      {
-        roomName: 'Cooking',
-        favourited: false
-      },
-      {
-        roomName: 'Programming',
-        favourited: false
-      },
-      {
-        roomName: 'Meetups',
-        favourited: false
-      },
-    ]
 
-    const logout = () => {} // won't be needed in Chat
+    const joinRoom = (room: string) => {
+      props.socket.emit("join_room", room)
+      setselectedChat(room)
+    }
+
+    const setLogout = props.logout // won't be needed in Chat
 
     return (
       <Container>
@@ -69,10 +48,11 @@ export function ChatRoom(props: props) {
             </div>
             <div className='chatDetails'>
               <Chat 
+                key={selectedChat}
                 socket={props.socket} 
                 username={props.username} 
-                room={props.room}
-                logout={logout}
+                room={selectedChat}
+                logout={setLogout}
               />
             </div>
 
@@ -110,6 +90,21 @@ const Container = styled.div`
         margin: 0 0 0.1em;
         letter-spacing: 0.3em;
         text-transform: uppercase;
+      }
+      .chatSelector {
+        width: 100%;
+        display: grid;
+        position: relative;
+        grid-template-columns: 1fr 3fr;
+        padding: 0;
+        text-align: left;
+        margin-bottom: 2px;
+        font-size: 12pt;
+        background-color: white;
+        border: none;
+        &:hover {
+          background-color: rgb(235, 250, 250);
+        }
       }
     }
     .chatDetails {
