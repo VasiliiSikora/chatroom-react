@@ -37,11 +37,9 @@ export function ChatRoom(props: props) {
       <Container>
         <div className='chatInterface'>
             <div className='chatRooms'>
-                <h1 className='sectionTitleList'>Chat Rooms</h1>
+                <h1 className='sectionTitleList'>Waffle On...</h1>
                 <div className='roomListFilters'>
                     <button className='chatListFilter isActive' onClick={() => setFilter('all')}>ALL</button>
-                    <span className="sectionCount">{}</span>
-                    <button className='chatListFilter' onClick={() => setFilter('faves')}>FAVES</button>
                     <span className="sectionCount">{}</span>
                 </div>
                 {(filter === 'all') ? renderList(Chats) : renderList(favChats)}
@@ -72,9 +70,10 @@ const Container = styled.div`
     .chatRooms {
       position: relative;
       flex: 1 0 33.333333%;
-      height: 100%;
+      /* height: 100%; */
+      height: 515px;
       padding: 3.6em 0 0;
-      overflow-y: scroll;
+      /* overflow-y: scroll; */
       background-color: #f0f0f0;
       .sectionTitleList {
         width: 33.333333%;
@@ -110,6 +109,7 @@ const Container = styled.div`
     .chatDetails {
       flex: 0 1 66.666666%;
       background-color: #f0f0f0;
+      height: 515px;
     }
     .roomListFilters {
       position: fixed;
@@ -154,7 +154,7 @@ const Container = styled.div`
     }
     .chatDetails {
       position: relative;
-      overflow-y: scroll;
+      /* overflow-y: scroll; */
     }
   }
 `;

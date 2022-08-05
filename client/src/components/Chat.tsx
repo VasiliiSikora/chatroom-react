@@ -3,6 +3,7 @@ import { SocketIOClient } from '../utils/SocketIOClient'
 import {useState} from 'react'
 import { Socket } from 'socket.io-client';
 import styled from 'styled-components'
+import logoGif from '../logoGif.gif'
 
 interface props {
     socket: SocketIOClient.Socket
@@ -73,7 +74,8 @@ React.useEffect(() => {
             <Container>
                 <div className='chatWindow'>
                     <div className='chatHeader'>
-                        <p>Chatroom: {props.room}</p>
+                        <img src={logoGif} alt="" />
+                        <p>Waffle on: {props.room}</p>
                         <button onClick={() => setLogout()}>Logout</button>
                     </div>
                     <div className='chatBody' ref={ref}>
@@ -122,7 +124,7 @@ const Container = styled.div`
     margin: 0%;
     padding: 0%;
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     background: #fff;
     color: #212121;
     /* display: grid; */
@@ -131,23 +133,42 @@ const Container = styled.div`
     .chatWindow {
         /* width: 80vw; */
         height: 75vh;
+        align-items: center;
+        img {
+            height: 55px;
+        }
         p {
             margin: 0;
         }
         .chatHeader {
-            height: 45px;
+            height: 50px;
             border-radius: 6px;
-            background: #263238;
+            background: #ffffff;
             position: relative;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             cursor: pointer;
             p {
                 display: block;
                 padding: 0 1em 0 2em;
-                color: #fff;
+                color: #000000;
                 font-weight: 700;
                 line-height: 45px;
+            }
+            button {
+                /* width: 225px; */
+                /* height: 50px; */
+                margin: 7px;
+                border: none;
+                border-radius: 5px;
+                padding: 5px;
+                font-size: 16px;
+                background: #43a047;
+                color: #fff;
+                cursor: pointer;
+                &:hover {
+                background: #2e7d32;
+            }
             }
         }
         .chatBody {

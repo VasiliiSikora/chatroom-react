@@ -72,7 +72,7 @@ export function FrontPage() {
             {!showChat ? (
                 <div className='container'>
                     <div className="joinChatContainer">
-                        <h3>Join a Chatroom</h3>
+                        <h3>Join a Room</h3>
                         <input 
                             type='text' 
                             placeholder='John...' 
@@ -100,20 +100,30 @@ export function FrontPage() {
 }
 
 const Container = styled.div`
+    background-image: url('https://media.istockphoto.com/vectors/seamless-pattern-with-social-media-elements-vector-id1216688115?k=20&m=1216688115&s=612x612&w=0&h=3sseE8vq-XIPRsv55mVU3kq4Rv1T5hhBWxQ0UogyG0w=');
     margin: 0%;
     padding: 0%;
     width: 100vw;
     height: 100vh;
-    background: #fff;
+    /* background: #fff; */
     color: #212121;
     /* display: grid; */
     justify-content: center;
     align-items: center;
+    .container {
+        padding-top: 20%;
+    }
     .joinChatContainer {
         display: flex;
         flex-direction: column;
         text-align: center;
         align-items: center;
+        background-color: #fff;
+        width: 280px;
+        margin: auto;
+        border-radius: 20px;
+        border: 2px solid black;
+        padding: 20px 0px;
         h3 {
             font-size: 2.5rem;
             margin-bottom: 1rem;

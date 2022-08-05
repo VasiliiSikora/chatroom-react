@@ -6,6 +6,7 @@ import { ToastContainer, toast, ToastOptions} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import Cookies from "universal-cookie";
+import logo from '../logo.png'
 
 const cookies = new Cookies();
 
@@ -110,8 +111,8 @@ export class Login extends Component<{}, RegisterState> {
                     <FormContainer>
                         <form onSubmit={(event) => this.handleSubmit(event)}>
                             <div className='logo'>
-                                <img src="" alt="" />
-                                <h1>ChatRoom</h1>
+                                <img src={logo} alt="" />
+                                <h1>Waffle</h1>
                             </div>
                             <input 
                                 type="text" 
@@ -127,7 +128,7 @@ export class Login extends Component<{}, RegisterState> {
                             />
                             <button type='submit'>Login</button>
                             <span>
-                                Need to sign-up? 
+                                Need to sign-up?
                                 <Link to='/register'>Register</Link>
                             </span>
                         </form>
@@ -143,49 +144,69 @@ export class Login extends Component<{}, RegisterState> {
 
 // react-styled-components to set form styling
 const FormContainer = styled.div`
+    background-image: url('https://media.istockphoto.com/vectors/seamless-pattern-with-social-media-elements-vector-id1216688115?k=20&m=1216688115&s=612x612&w=0&h=3sseE8vq-XIPRsv55mVU3kq4Rv1T5hhBWxQ0UogyG0w=');
     height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: centre;
+    justify-content: center;
     align-items: center;
     .logo {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        margin-right: 15px;
+        img {
+            height: 90px;
+        }
         h1 {
-            color: white;
+            color: #000000;
+            font-size: 40px;
         }
     }
     form {
         display: flex;
         flex-direction: column;
-        background-color: black;
+        /* background-color: #ffffff; */
         border-radius: 30px;
-        padding: 45px 75px;
+        padding: 20px;
+        text-align: center;
+        align-items: center;
+        background-color: #fff;
+        width: 260px;
+        margin: auto;
+        border-radius: 20px;
+        border: 2px solid black;
+        /* gap: 10px; */
         input {
-            background-color: transparent;
-            padding: 15px;
-            border: 2px solid white;
-            border-radius: 8px;
-            color: white;
-            width: 100%;
+            width: 210px;
+            height: 40px;
+            margin: 7px;
+            border: 2px solid #43a047;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 16px;  
         }
     }
     button {
-        background-color: black;
-        color: white;
-        padding: 15px 30px;
+        width: 225px;
+        height: 50px;
+        margin: 7px;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 16px;
+        background: #43a047;
+        color: #fff;
         cursor: pointer;
-        border-radius: 8px;
         &:hover {
-            background-color: #494949;
+            background: #2e7d32;
         }
     }
     span {
-        color: white;
+        color: #000000;
         a {
-            color: blue;
+            color: #43a047;
             text-decoration: none;
             font-weight: bold;
         }
