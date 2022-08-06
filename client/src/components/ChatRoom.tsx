@@ -76,10 +76,10 @@ const Container = styled.div`
       /* overflow-y: scroll; */
       background-color: #f0f0f0;
       .sectionTitleList {
-        width: 33.333333%;
-        left: 0;
+        width: calc(33.333% - 12px);
+        left: 20px;
         position: fixed;
-        top: 0;
+        top: 20px;
         z-index: 10;
         background-color: #777;
         color: white;
@@ -92,11 +92,11 @@ const Container = styled.div`
       }
       .chatSelector {
         width: 100%;
-        display: grid;
+        /* display: grid; */
         position: relative;
         grid-template-columns: 1fr 3fr;
         padding: 0;
-        text-align: left;
+        text-align: center;
         margin-bottom: 2px;
         font-size: 12pt;
         background-color: white;
@@ -113,12 +113,12 @@ const Container = styled.div`
     }
     .roomListFilters {
       position: fixed;
-      top: 1.6em;
-      left: 0;
+      top: calc(1.6em + 20px);
+      left: 20px;
       z-index: 10;
       display: flex;
       justify-content: center;
-      width: 33.333333%;
+      width: calc(33.333% - 12px);
       .chatListFilter {
         flex-grow: 1;
         background-color: #bbb;

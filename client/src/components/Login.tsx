@@ -6,7 +6,7 @@ import { ToastContainer, toast, ToastOptions} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import Cookies from "universal-cookie";
-import logo from '../logo.png'
+import logo from '../images/logo.png'
 
 const cookies = new Cookies();
 
@@ -40,18 +40,6 @@ export class Login extends Component<{}, RegisterState> {
             shouldRedirect: false,
             isLogin: false,
         }
-    }
-
-    // Use componentDidMount & componentWillUnmount in place of useEffect since class components can't use hooks
-    componentDidMount() {
-        // const token = cookies.get("TOKEN")
-        // if(token) {
-        //     this.setState({...this.state, shouldRedirect: true, isLogin: true})
-        // }
-    }
-
-    componentWillUnmount() {
-
     }
 
     handlePasswordConfirm = () => {
@@ -108,6 +96,7 @@ export class Login extends Component<{}, RegisterState> {
             {this.state.shouldRedirect ? // https://stackoverflow.com/questions/47679941/redirect-in-react-with-typescript
                 <Navigate to='/' /> :
                 <>
+                    <ToastContainer />
                     <FormContainer>
                         <form onSubmit={(event) => this.handleSubmit(event)}>
                             <div className='logo'>
@@ -115,12 +104,14 @@ export class Login extends Component<{}, RegisterState> {
                                 <h1>Waffle</h1>
                             </div>
                             <input 
+                                data-testid='login-username-input'
                                 type="text" 
                                 placeholder='Username' 
                                 name='username' 
                                 onChange={(event) => this.handleChange(event)}
                             />
                             <input 
+                                data-testid='login-password-input'
                                 type="password" 
                                 placeholder='Password' 
                                 name='password' 
@@ -133,7 +124,6 @@ export class Login extends Component<{}, RegisterState> {
                             </span>
                         </form>
                     </FormContainer>
-                    <ToastContainer />
                 </>
             }
             </>

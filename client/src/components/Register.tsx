@@ -6,7 +6,7 @@ import { ToastContainer, toast, ToastOptions} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import Cookies from "universal-cookie";
-import logo from '../logo.png'
+import logo from '../images/logo.png'
 
 const cookies = new Cookies();
 

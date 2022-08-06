@@ -74,11 +74,13 @@ export function FrontPage() {
                     <div className="joinChatContainer">
                         <h3>Join a Room</h3>
                         <input 
+                            data-testid='chatroom-username-input'
                             type='text' 
                             placeholder='John...' 
                             value={username}
                             onChange={(event) => {setUsername(event.target.value)}}/>
                         <input 
+                            data-testid='chatroom-room-input'
                             type='text' 
                             placeholder='Room ID...'
                             onChange={(event) => {setRoom(event.target.value)}}/>

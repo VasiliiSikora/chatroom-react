@@ -3,7 +3,7 @@ import { SocketIOClient } from '../utils/SocketIOClient'
 import {useState} from 'react'
 import { Socket } from 'socket.io-client';
 import styled from 'styled-components'
-import logoGif from '../logoGif.gif'
+import logoGif from '../images/logoGif.gif'
 
 interface props {
     socket: SocketIOClient.Socket
@@ -132,7 +132,7 @@ const Container = styled.div`
     align-items: center;
     .chatWindow {
         /* width: 80vw; */
-        height: 75vh;
+        /* height: 75vh; */
         align-items: center;
         img {
             height: 55px;
